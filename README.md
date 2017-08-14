@@ -67,3 +67,6 @@ There are more supportive packages for ROS. LCM is lightweight.
 
 ## Point Cloud flitering, sugmentation, clustering and recognition
 
+## License
+
+autonomous-robot is distributed under the [MIT license](./LICENSE).
