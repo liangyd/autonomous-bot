@@ -30,9 +30,9 @@ Users can also use different motor driver and motor set, and they only need to m
 ## Software Architecture
 
 Logic design structure:
-* **Perception:** Picamera(R), encoder(B), IMU(B), Realsense camera(E), 
+* **Perception:** Picamera(R), encoder(B), IMU(B), Realsense camera(E), Lidar(R or E)
 * **Desision Making:** 
-* **Actuation:** GPIO(B), Motor(B), 
+* **Actuation:** GPIO(B), Motor(B)
 
 Real design structure:
 * **Lower Level System**
@@ -62,6 +62,12 @@ There are more supportive packages for ROS. LCM is lightweight.
 ## Visual SLAM
 
 ## Lidar SLAM
+
+For Lidar SLAM research, [RPLIDAR A2](https://www.slamtec.com/en/Lidar) is used in this project.
+
+[RPLIDAR support page](https://www.slamtec.com/en/Support) provides some documents and manuals.
+
+[ROS Repo](https://github.com/robopeak/rplidar_ros.git)
 
 ## SLAM Mapping Assistance System
 
