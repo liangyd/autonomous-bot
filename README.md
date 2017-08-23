@@ -17,7 +17,7 @@ This is an open source platform for autonomous robot research.
 
 What robot looks like in this stage:
 
-<div>
+<div align="center">
     <img src="./misc/robot_stage_1_1.JPG" width="350"/>
     <img src="./misc/robot_stage_1_2.JPG" width="350"/>
 </div>
@@ -25,6 +25,7 @@ What robot looks like in this stage:
 Use BBBlue and RPi and Picamera for simple RGB function:
 
 [Lane detection for autonomous robot mapping exploration demo 1](https://youtu.be/K5EtviDAQok)
+
 [Lane detection for autonomous robot mapping exploration demo 2 (GUI on PC end)](https://youtu.be/bkLq2cbF-zA)
 
 
@@ -46,7 +47,7 @@ The purpose for this project is to study more techs recently used in robotics an
 The reason I chose these hardware is: 
 Users can also use different motor driver and motor set, and they only need to modify the code for the driver in `` function to change pin connection, motor driver direction definition and motor driver enable. They also need to change the `` function depends on if they motor has inner loop controller for PWM-speed mapping relationship.
 
-By the way, for robotics design ideas, I found [this video](https://youtu.be/OJNNm6iMOKk) inspiring and may give you more descriptions on the small robot design procedure.
+By the way, for robotics design ideas, I found [this video](https://youtu.be/OJNNm6iMOKk) inspiring and may give you more descriptions on the small robot design.
 
 ### Hardware List
 
@@ -68,6 +69,9 @@ Logic design structure:
 
 Real design structure:
 * **Lower Level System**
+
+DSM X: function switch and mannual control for the movement of robot. Use Spektrum transmitter and satellite receiver.
+
 * **Higher Level System**
 
 
@@ -99,7 +103,7 @@ For Lidar SLAM research, [RPLIDAR A2](https://www.slamtec.com/en/Lidar) is used 
 
 [RPLIDAR support page](https://www.slamtec.com/en/Support) provides some documents and manuals.
 
-[ROS Repo](https://github.com/robopeak/rplidar_ros.git)
+In official [RPLIDAR ROS Repo](https://github.com/robopeak/rplidar_ros.git), checkout `slam` branch. And git clone other SLAM packages in catkin_ws/src. We use [Hector slam](https://github.com/tu-darmstadt-ros-pkg/hector_slam.git) and [Gmapping slam](https://github.com/ros-perception/slam_gmapping.git).
 
 ## SLAM Mapping Assistance System
 

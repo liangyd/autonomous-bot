@@ -3,16 +3,6 @@
 *
 *******************************************************************************/
 
-
-/**
-need to do:
-1. dynamica model, measure, base length
-2. sensor fusion
-3. paper
-4. communication with RPi
-
-**/
-
 // usefulincludes is a collection of common system includes for the lazy
 // This is not necessary for roboticscape projects but here for convenience
 #include "../robocape/libraries/rc_usefulincludes.h"//<rc_usefulincludes.h> 
@@ -168,6 +158,11 @@ typedef enum bot_motion_state_t {
 	RC,
 } bot_motion_state_t;
 
+typedef enum bot_cmd_t {
+	IDLE_CMD,
+	ARROW_CMD,
+} bot_cmd_t;
+
 typedef struct PID//this is for PID
 {
 	float kp;
@@ -208,6 +203,7 @@ PID path_devPID = {
 };
 
 bot_motion_state_t bot_motion_state = IDLE;
+bot_cmd_t bot_cmd = IDLE_CMD;
 
 //filters
 rc_filter_t lowpass_alti;
@@ -224,6 +220,7 @@ float velocity_regulate(float vel);
 void cascade_control();
 void odometry_get(int freq_div);
 void bot_motion_control(int freq_div);
+void RC_Control(int freq_div);
 //void on_pause_released();
 void function_start_green();
 void function_end_green();
@@ -283,6 +280,10 @@ int main(){
 		fprintf(stderr,"ERROR: failed to initialize rc_initialize(), are you root?\n");
 		return -1;
 	}
+	if(rc_initialize_dsm() == 0){
+		printf("DSM module initialized.\n");
+	}
+
 	rc_set_cpu_freq(FREQ_1000MHZ);
 	init_parameters();
 	lcm = lcm_create(NULL);
@@ -392,9 +393,7 @@ int main(){
 *******************************************************************************/
 
 void robot_path_handler(const lcm_recv_buf_t *rbuf, const char * channel, const robot_path_t * msg, void * user){
-/*
-	if(bot_motion_state != IDLE)
-		return;*/
+
 	int i;
 	//printf("Receive LCM msg from channel CONTROLLER_PATH.\n");
 	for(i=0;i<msg->path_length;i++){
@@ -609,6 +608,12 @@ void* printf_loop(void* ptr){
 	return NULL;
 } 
 
+void RC_Control(int freq_div){
+	float forward_Command = rc_get_dsm_ch_normalized(3);
+	float turn_Command = rc_get_dsm_ch_normalized(2);
+	bot_data.set_forward_vel = forward_Command * 0.2;
+	bot_data.set_angular_vel = turn_Command * 0.2;//PID_Cal(&turnPID, turn_Command * 0.1 - bot_data.fb_angular_vel, freq_div);
+}
 
 
 void interrupt_IMU_function(){
@@ -616,7 +621,6 @@ void interrupt_IMU_function(){
 	imu_get(1);
 	//barometer_get();
 	cascade_control();
-
 }
 
 
@@ -631,6 +635,17 @@ void cascade_control(){
 		//RC_Control(15);
 		bot_motion_control(1);
 		control_count = 0;
+	}
+
+	if(rc_get_dsm_ch_normalized(7) > 0) // if RC control switch on, need to tune
+	{
+		bot_motion_state = IDLE;
+		bot_cmd = ARROW_CMD;
+	}else{
+		bot_cmd = IDLE_CMD;
+	}
+	if(bot_cmd == ARROW_CMD){
+		RC_Control(1);
 	}
 
 	float Motor_1_Speed = (bot_data.set_forward_vel ) * 1 - bot_data.set_angular_vel * WHEEL_BASE / 2.0;
