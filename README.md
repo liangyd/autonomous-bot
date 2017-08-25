@@ -11,7 +11,9 @@ This is an open source platform for autonomous robot research.
 
 ### BBBlue path following robust test
 
-[Disturbance resistance]()
+[Robot running a square](https://youtu.be/SS_GgtZsr1g)
+
+[Disturbance resistance](https://youtu.be/tviMtRldPG8)
 
 ### Lane detection and mapping
 
@@ -27,6 +29,20 @@ Use BBBlue and RPi and Picamera for simple RGB function:
 [Lane detection for autonomous robot mapping exploration demo 1](https://youtu.be/K5EtviDAQok)
 
 [Lane detection for autonomous robot mapping exploration demo 2 (GUI on PC end)](https://youtu.be/bkLq2cbF-zA)
+
+### SLAM demo
+
+What robot looks like in this stage:
+
+<div align="center">
+    <img src="./misc/robot_stage_2_1.JPG" width="270"/>
+    <img src="./misc/robot_stage_2_2.JPG" width="270"/>
+    <img src="./misc/robot_stage_2_3.JPG" width="270"/>
+</div>
+
+Use RPLIDAR for Hector SLAM function:
+
+[Hector SLAM demo](https://youtu.be/ehYfVyNUKOA)
 
 
 ## Repo Status
@@ -51,13 +67,15 @@ By the way, for robotics design ideas, I found [this video](https://youtu.be/OJN
 
 ### Hardware List
 
-* RPLIDAR
+* RPLIDAR and UART-USB converter
 * Intel Realsense Euclid development kit
 * Microsoft Kinect
 * Beaglebone Blue
 * Raspberry Pi 3
-* Arduino (not used yet since BBBlue and RPi3 done all the job, for now just decoration)
-* 
+* Picamera
+* Spektrum transmitter DX6 and satellite receiver
+* Brush DC motor and motor driver L298
+* Voltage regulator module
 
 
 ## Software Architecture
@@ -103,7 +121,7 @@ For Lidar SLAM research, [RPLIDAR A2](https://www.slamtec.com/en/Lidar) is used 
 
 [RPLIDAR support page](https://www.slamtec.com/en/Support) provides some documents and manuals.
 
-In official [RPLIDAR ROS Repo](https://github.com/robopeak/rplidar_ros.git), checkout `slam` branch. And git clone other SLAM packages in catkin_ws/src. We use [Hector slam](https://github.com/tu-darmstadt-ros-pkg/hector_slam.git) and [Gmapping slam](https://github.com/ros-perception/slam_gmapping.git).
+In official [RPLIDAR ROS Repo](https://github.com/robopeak/rplidar_ros.git), checkout `slam` branch. And git clone other SLAM packages in catkin_ws/src. We use [Hector slam](https://github.com/tu-darmstadt-ros-pkg/hector_slam.git) and [gMapping slam](https://github.com/ros-perception/slam_gmapping.git).
 
 ## SLAM Mapping Assistance System
 

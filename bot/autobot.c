@@ -40,11 +40,11 @@
 #define ENCODER_RATIO (PI*D)/(GEARBOX*ENCODER_RES)
 
 //path
-#define ERR_TOL_DIST 0.06//0.02//0.09
+#define ERR_TOL_DIST 0.09//0.02//0.09
 #define ERR_TOL_THETA 0.05//0.02//0.05
 
 //odometry
-#define ODOM_GYRO_THRESHOLD 0.000023
+#define ODOM_GYRO_THRESHOLD 0.00004//0.000023
 #define BOT_MOTION_TURN_THRESHOLD 8 /////////////////
 
 //GPS UART configuration
@@ -178,7 +178,7 @@ world_odometry world_odom = {
 	.y = 0,
 	.prev_encoder_val_1 = 0,
 	.prev_encoder_val_2 = 0,
-	.theta = 0,
+	.theta = PI/2,
 	.prev_theta = 0,
 };
 bot_data_t bot_data = {
@@ -195,9 +195,9 @@ PID pathPID = {
 	.accumulate = 0,
 };
 PID path_devPID = {
-	.kp = 2,
+	.kp = 3,
 	.ki = 0,
-	.kd = 0.03,
+	.kd = 0.05,
 	.last_err = 0,
 	.accumulate = 0,
 };
@@ -609,10 +609,16 @@ void* printf_loop(void* ptr){
 } 
 
 void RC_Control(int freq_div){
-	float forward_Command = rc_get_dsm_ch_normalized(3);
+	float forward_Command = rc_get_dsm_ch_normalized(1);
 	float turn_Command = rc_get_dsm_ch_normalized(2);
-	bot_data.set_forward_vel = forward_Command * 0.2;
-	bot_data.set_angular_vel = turn_Command * 0.2;//PID_Cal(&turnPID, turn_Command * 0.1 - bot_data.fb_angular_vel, freq_div);
+
+	if(forward_Command<0.4 && forward_Command>-0.4){
+		bot_data.set_forward_vel = 0;
+		bot_data.set_angular_vel = 0;
+	}else{
+		bot_data.set_forward_vel = (forward_Command-0.2) * 0.6;
+		bot_data.set_angular_vel = -turn_Command * 5;
+	}
 }
 
 
@@ -637,7 +643,7 @@ void cascade_control(){
 		control_count = 0;
 	}
 
-	if(rc_get_dsm_ch_normalized(7) > 0) // if RC control switch on, need to tune
+	if(rc_get_dsm_ch_normalized(5) > 0) // if RC control switch on, need to tune
 	{
 		bot_motion_state = IDLE;
 		bot_cmd = ARROW_CMD;
