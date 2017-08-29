@@ -2,10 +2,11 @@
 
 # Autonomous robot platform for algorithm development research 
 
+This is a demo repo for autonomous robot research.
 
-This is an open source platform for autonomous robot research.
-
-
+<div align="center">
+    <img src="./misc/robot_SLAM_demo.png" width="400"/>
+</div>
 
 ## Demo Videos
 
@@ -61,7 +62,7 @@ The purpose for this project is to study more techs recently used in robotics an
 
 
 The reason I chose these hardware is: 
-Users can also use different motor driver and motor set, and they only need to modify the code for the driver in `` function to change pin connection, motor driver direction definition and motor driver enable. They also need to change the `` function depends on if they motor has inner loop controller for PWM-speed mapping relationship.
+Users can also use different motor driver and motor set, and they only need to modify the code for the driver in `setup_motors()`, `init_motor()` function to change pin connection, motor driver direction definition and motor driver enable. They also need to change the `set_motor_speed()` function depends on if they motor has inner loop controller for PWM-speed mapping relationship.
 
 By the way, for robotics design ideas, I found [this video](https://youtu.be/OJNNm6iMOKk) inspiring and may give you more descriptions on the small robot design.
 
@@ -77,6 +78,11 @@ By the way, for robotics design ideas, I found [this video](https://youtu.be/OJN
 * Brush DC motor and motor driver L298
 * Voltage regulator module
 
+### Hardware Integration
+
+<div align="center">
+    <img src="./misc/autobot_real_hardware.JPG" width="500"/>
+</div>
 
 ## Software Architecture
 
@@ -114,8 +120,10 @@ There are more supportive packages for ROS. LCM is lightweight.
 ## Lane Cruising
 
 ## Visual SLAM
+Open source will be implemented: ORB-SLAM; Open RatSLAM; OKVIS.
 
 ## Lidar SLAM
+Open source will be implemented: Hector SLAM; gMapping; Cartographer.
 
 For Lidar SLAM research, [RPLIDAR A2](https://www.slamtec.com/en/Lidar) is used in this project.
 
